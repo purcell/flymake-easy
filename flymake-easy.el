@@ -85,6 +85,33 @@ Argument LOCATION where to create the temporary copy: one of 'tempdir (default) 
           (flymake-mode t))
       (message "Not enabling flymake: '%s' command not found" executable))))
 
+;; Internal overrides for flymake
+
+(defun flymake-easy--find-all-matches (str)
+  "Return all matched for error line patterns in STR.
+
+This is a judicious override for `flymake-split-output', enabled
+by the advice below, which allows for matching multi-line
+patterns."
+  (let (matches
+        (last-match-end-pos 0))
+    (dolist (pattern flymake-err-line-patterns)
+      (let ((regex (car pattern))
+            (pos 0))
+        (while (string-match regex str pos)
+          (push (match-string 0 str) matches)
+          (setq pos (match-end 0)))
+        (setf last-match-end-pos (max pos last-match-end-pos))))
+    (let ((residual (substring str last-match-end-pos)))
+      (list matches
+            (unless (string= "" residual) residual)))))
+
+(defadvice flymake-split-output (around flymake-easy--split-output (output) activate protect)
+  "Override `flymake-split-output' to support mult-line error messages."
+  (setq ad-return-value (if flymake-easy--active
+                            (flymake-easy--find-all-matches output)
+                          ad-do-it)))
+
 
 (defadvice flymake-post-syntax-check (before flymake-easy--force-check-was-interrupted activate)
   (when flymake-easy--active
