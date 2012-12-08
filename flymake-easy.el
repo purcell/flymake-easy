@@ -31,6 +31,7 @@
 ;;; Code:
 
 (require 'flymake)
+(require 'cl)
 
 (defvar flymake-easy--active nil
   "Indicates when flymake-easy-load has successfully run in this buffer.")
@@ -123,4 +124,11 @@ patterns."
 
 
 (provide 'flymake-easy)
+
+;; Local Variables:
+;; coding: utf-8
+;; byte-compile-warnings: (not cl-functions)
+;; eval: (checkdoc-minor-mode 1)
+;; End:
+
 ;;; flymake-easy.el ends here
