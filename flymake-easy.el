@@ -67,7 +67,7 @@ Argument PREFIX temp file prefix, supplied by flymake."
          (command (funcall flymake-easy--command-fn tempfile)))
     (list (first command) (rest command))))
 
-(defun flymake-easy-load (command-fn err-line-patterns &optional location extension)
+(defun flymake-easy-load (command-fn &optional err-line-patterns location extension)
   "Enable flymake in the containing buffer using a specific narrow configuration.
 Argument COMMAND-FN function called to build the
    command line to run (receives filename, returns list).
@@ -83,7 +83,8 @@ Argument LOCATION where to create the temporary copy: one of 'tempdir (default) 
                 flymake-easy--active t)
           (set (make-local-variable 'flymake-allowed-file-name-masks)
                '(("." flymake-easy--flymake-init)))
-          (set (make-local-variable 'flymake-err-line-patterns) err-line-patterns)
+          (when err-line-patterns
+            (set (make-local-variable 'flymake-err-line-patterns) err-line-patterns))
           (dolist (var '(flymake-warning-re
                          flymake-warn-line-regexp))
             (set (make-local-variable var) "^[wW]arn"))
