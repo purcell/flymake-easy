@@ -67,15 +67,16 @@ Argument PREFIX temp file prefix, supplied by flymake."
          (command (funcall flymake-easy--command-fn tempfile)))
     (list (first command) (rest command))))
 
-(defun flymake-easy-load (command-fn &optional err-line-patterns location extension)
+(defun flymake-easy-load (command-fn &optional err-line-patterns location extension warning-re)
   "Enable flymake in the containing buffer using a specific narrow configuration.
 Argument COMMAND-FN function called to build the
    command line to run (receives filename, returns list).
 Argument ERR-LINE-PATTERNS patterns for identifying errors (see `flymake-err-line-patterns').
 Argument EXTENSION a canonical extension for this type of source file, e.g. \"rb\".
-Argument LOCATION where to create the temporary copy: one of 'tempdir (default) or 'inplace."
+Argument LOCATION where to create the temporary copy: one of 'tempdir (default) or 'inplace.
+Argument WARNING-RE a pattern which identifies error messages as warnings."
   (let ((executable (first (funcall command-fn "dummy"))))
-    (if (executable-find executable)
+    (if (executable-find executable) ;; TODO: defer this checking
         (progn
           (setq flymake-easy--command-fn command-fn
                 flymake-easy--location (or location 'tempdir)
@@ -87,7 +88,7 @@ Argument LOCATION where to create the temporary copy: one of 'tempdir (default) 
             (set (make-local-variable 'flymake-err-line-patterns) err-line-patterns))
           (dolist (var '(flymake-warning-re
                          flymake-warn-line-regexp))
-            (set (make-local-variable var) "^[wW]arn"))
+            (set (make-local-variable var) (or warning-re "^[wW]arn")))
           (flymake-mode t))
       (message "Not enabling flymake: '%s' command not found" executable))))
 
