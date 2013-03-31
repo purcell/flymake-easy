@@ -31,7 +31,6 @@
 ;;; Code:
 
 (require 'flymake)
-(require 'cl)
 
 (defvar flymake-easy--active nil
   "Indicates when flymake-easy-load has successfully run in this buffer.")
