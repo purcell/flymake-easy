@@ -66,6 +66,12 @@ Argument PREFIX temp file prefix, supplied by flymake."
          (command (funcall flymake-easy--command-fn tempfile)))
     (list (first command) (rest command))))
 
+(defun flymake-easy-exclude-buffer-p ()
+  "Whether to skip flymake in the current buffer."
+  (and (fboundp 'tramp-tramp-file-p)
+       (buffer-file-name)
+       (tramp-tramp-file-p (buffer-file-name))))
+
 (defun flymake-easy-load (command-fn &optional err-line-patterns location extension warning-re)
   "Enable flymake in the containing buffer using a specific narrow configuration.
 Argument COMMAND-FN function called to build the
@@ -76,7 +82,7 @@ Argument LOCATION where to create the temporary copy: one of 'tempdir (default) 
 Argument WARNING-RE a pattern which identifies error messages as warnings."
   (let ((executable (first (funcall command-fn "dummy"))))
     (if (executable-find executable) ;; TODO: defer this checking
-        (progn
+        (unless (flymake-easy-exclude-buffer-p)
           (setq flymake-easy--command-fn command-fn
                 flymake-easy--location (or location 'tempdir)
                 flymake-easy--extension extension
