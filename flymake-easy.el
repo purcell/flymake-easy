@@ -64,7 +64,7 @@ Argument PREFIX temp file prefix, supplied by flymake."
             (t
              (error "unknown location for flymake-easy: %s" flymake-easy--location)))))
          (command (funcall flymake-easy--command-fn tempfile)))
-    (list (first command) (rest command))))
+    (list (car command) (cdr command))))
 
 (defun flymake-easy-exclude-buffer-p ()
   "Whether to skip flymake in the current buffer."
