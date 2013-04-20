@@ -72,14 +72,15 @@ Argument PREFIX temp file prefix, supplied by flymake."
        (buffer-file-name)
        (tramp-tramp-file-p (buffer-file-name))))
 
-(defun flymake-easy-load (command-fn &optional err-line-patterns location extension warning-re)
+(defun flymake-easy-load (command-fn &optional err-line-patterns location extension warning-re info-re)
   "Enable flymake in the containing buffer using a specific narrow configuration.
 Argument COMMAND-FN function called to build the
    command line to run (receives filename, returns list).
 Argument ERR-LINE-PATTERNS patterns for identifying errors (see `flymake-err-line-patterns').
 Argument EXTENSION a canonical extension for this type of source file, e.g. \"rb\".
 Argument LOCATION where to create the temporary copy: one of 'tempdir (default) or 'inplace.
-Argument WARNING-RE a pattern which identifies error messages as warnings."
+Argument WARNING-RE a pattern which identifies error messages as warnings.
+Argument INFO-RE a pattern which identifies messages as infos."
   (let ((executable (first (funcall command-fn "dummy"))))
     (if (executable-find executable) ;; TODO: defer this checking
         (unless (flymake-easy-exclude-buffer-p)
@@ -94,6 +95,9 @@ Argument WARNING-RE a pattern which identifies error messages as warnings."
           (dolist (var '(flymake-warning-re
                          flymake-warn-line-regexp))
             (set (make-local-variable var) (or warning-re "^[wW]arn")))
+          (dolist (var '(flymake-info-re
+                         flymake-info-line-regexp))
+            (set (make-local-variable var) (or info-re "^[iI]nfo")))
           (flymake-mode t))
       (message "Not enabling flymake: '%s' command not found" executable))))
 
