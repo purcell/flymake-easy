@@ -95,9 +95,9 @@ by the flymake fork at https://github.com/illusori/emacs-flymake)."
             (set (make-local-variable 'flymake-err-line-patterns) err-line-patterns))
           (dolist (var '(flymake-warning-re flymake-warn-line-regexp))
             (set (make-local-variable var) (or warning-re "^[wW]arn")))
-          (when (boundp 'flymake-info-re)
-            (dolist (var '(flymake-info-re flymake-info-line-regexp))
-              (set (make-local-variable var) (or info-re "^[iI]nfo"))))
+          (when (boundp 'flymake-info-line-regexp)
+            (set (make-local-variable 'flymake-info-line-regexp)
+                 (or info-re "^[iI]nfo")))
           (flymake-mode t))
       (message "Not enabling flymake: '%s' command not found" executable))))
 
