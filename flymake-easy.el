@@ -80,7 +80,8 @@ Argument ERR-LINE-PATTERNS patterns for identifying errors (see `flymake-err-lin
 Argument EXTENSION a canonical extension for this type of source file, e.g. \"rb\".
 Argument LOCATION where to create the temporary copy: one of 'tempdir (default) or 'inplace.
 Argument WARNING-RE a pattern which identifies error messages as warnings.
-Argument INFO-RE a pattern which identifies messages as infos."
+Argument INFO-RE a pattern which identifies messages as infos (supported only
+by the flymake fork at https://github.com/illusori/emacs-flymake)."
   (let ((executable (first (funcall command-fn "dummy"))))
     (if (executable-find executable) ;; TODO: defer this checking
         (unless (flymake-easy-exclude-buffer-p)
@@ -92,12 +93,11 @@ Argument INFO-RE a pattern which identifies messages as infos."
                '(("." flymake-easy--flymake-init)))
           (when err-line-patterns
             (set (make-local-variable 'flymake-err-line-patterns) err-line-patterns))
-          (dolist (var '(flymake-warning-re
-                         flymake-warn-line-regexp))
+          (dolist (var '(flymake-warning-re flymake-warn-line-regexp))
             (set (make-local-variable var) (or warning-re "^[wW]arn")))
-          (dolist (var '(flymake-info-re
-                         flymake-info-line-regexp))
-            (set (make-local-variable var) (or info-re "^[iI]nfo")))
+          (when (boundp 'flymake-info-re)
+            (dolist (var '(flymake-info-re flymake-info-line-regexp))
+              (set (make-local-variable var) (or info-re "^[iI]nfo"))))
           (flymake-mode t))
       (message "Not enabling flymake: '%s' command not found" executable))))
 
