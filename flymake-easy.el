@@ -99,7 +99,7 @@ by the flymake fork at https://github.com/illusori/emacs-flymake)."
             (set (make-local-variable 'flymake-info-line-regexp)
                  (or info-re "^[iI]nfo")))
           (flymake-mode t))
-      (message "Not enabling flymake: '%s' command not found" executable))))
+      (message "Not enabling flymake: '%s' program not found" executable))))
 
 ;; Internal overrides for flymake
 
