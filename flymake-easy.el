@@ -50,7 +50,9 @@
 (defun flymake-easy--tempfile-in-temp-dir (file-name prefix)
   "Create a temporary file for storing the contents of FILE-NAME in the system tempdir.
 Argument PREFIX temp file prefix, supplied by flymake."
-  (make-temp-file (or prefix "flymake-easy") nil flymake-easy--extension))
+  (make-temp-file (or prefix "flymake-easy")
+                  nil
+                  (concat "." flymake-easy--extension)))
 
 (defun flymake-easy--flymake-init ()
   "A catch-all flymake init function for use in `flymake-allowed-file-name-masks'."
