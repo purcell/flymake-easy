@@ -84,7 +84,7 @@ Argument LOCATION where to create the temporary copy: one of 'tempdir (default) 
 Argument WARNING-RE a pattern which identifies error messages as warnings.
 Argument INFO-RE a pattern which identifies messages as infos (supported only
 by the flymake fork at https://github.com/illusori/emacs-flymake)."
-  (let ((executable (first (funcall command-fn "dummy"))))
+  (let ((executable (car (funcall command-fn "dummy"))))
     (if (executable-find executable) ;; TODO: defer this checking
         (unless (flymake-easy-exclude-buffer-p)
           (setq flymake-easy--command-fn command-fn
