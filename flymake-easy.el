@@ -106,7 +106,7 @@ by the flymake fork at https://github.com/illusori/emacs-flymake)."
 ;; Internal overrides for flymake
 
 (defun flymake-easy--find-all-matches (str)
-  "Return all matched for error line patterns in STR.
+  "Return every match for `flymake-err-line-patterns' in STR.
 
 This is a judicious override for `flymake-split-output', enabled
 by the advice below, which allows for matching multi-line
