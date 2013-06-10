@@ -119,7 +119,7 @@ patterns."
         (while (string-match regex str pos)
           (push (match-string 0 str) matches)
           (setq pos (match-end 0)))
-        (setf last-match-end-pos (max pos last-match-end-pos))))
+        (setq last-match-end-pos (max pos last-match-end-pos))))
     (let ((residual (substring str last-match-end-pos)))
       (list matches
             (unless (string= "" residual) residual)))))
