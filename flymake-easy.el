@@ -91,15 +91,15 @@ by the flymake fork at https://github.com/illusori/emacs-flymake)."
                 flymake-easy--location (or location 'tempdir)
                 flymake-easy--extension extension
                 flymake-easy--active t)
-          (set (make-local-variable 'flymake-allowed-file-name-masks)
-               '(("." flymake-easy--flymake-init)))
+          (setq-local flymake-allowed-file-name-masks
+                      '(("." flymake-easy--flymake-init)))
           (when err-line-patterns
-            (set (make-local-variable 'flymake-err-line-patterns) err-line-patterns))
+            (setq-local flymake-err-line-patterns err-line-patterns))
           (dolist (var '(flymake-warning-re flymake-warn-line-regexp))
             (set (make-local-variable var) (or warning-re "^[wW]arn")))
           (when (boundp 'flymake-info-line-regexp)
-            (set (make-local-variable 'flymake-info-line-regexp)
-                 (or info-re "^[iI]nfo")))
+            (setq-local flymake-info-line-regexp
+                        (or info-re "^[iI]nfo")))
           (flymake-mode t))
       (message "Not enabling flymake: '%s' program not found" executable))))
 
