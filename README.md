@@ -1,3 +1,6 @@
+[![Melpa Status](http://melpa.milkbox.net/packages/flymake-easy-badge.svg)](http://melpa.milkbox.net/#/flymake-easy)
+[![Melpa Stable Status](http://melpa-stable.milkbox.net/packages/flymake-easy-badge.svg)](http://melpa-stable.milkbox.net/#/flymake-easy)
+
 flymake-easy.el
 ===============
 
