@@ -1,5 +1,5 @@
-[![Melpa Status](http://melpa.milkbox.net/packages/flymake-easy-badge.svg)](http://melpa.milkbox.net/#/flymake-easy)
-[![Melpa Stable Status](http://melpa-stable.milkbox.net/packages/flymake-easy-badge.svg)](http://melpa-stable.milkbox.net/#/flymake-easy)
+[![Melpa Status](http://melpa.org/packages/flymake-easy-badge.svg)](http://melpa.org/#/flymake-easy)
+[![Melpa Stable Status](http://stable.melpa.org/packages/flymake-easy-badge.svg)](http://stable.melpa.org/#/flymake-easy)
 
 flymake-easy.el
 ===============
@@ -25,7 +25,7 @@ See [`flymake-ruby`](https://github.com/purcell/flymake-ruby) for an
 example.
 
 [marmalade]: http://marmalade-repo.org
-[melpa]: http://melpa.milkbox.net
+[melpa]: http://melpa.org
 
 <hr>
 
