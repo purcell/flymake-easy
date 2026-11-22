@@ -1,4 +1,4 @@
-;;; flymake-easy.el --- Helpers for easily building flymake checkers
+;;; flymake-easy.el --- Helpers for easily building flymake checkers  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2012 Steve Purcell
 
@@ -94,16 +94,17 @@ by the flymake fork at https://github.com/illusori/emacs-flymake)."
                 flymake-easy--location (or location 'tempdir)
                 flymake-easy--extension extension
                 flymake-easy--active t)
-          (set (make-local-variable 'flymake-allowed-file-name-masks)
+          (set (make-local-variable 'flymake-proc-allowed-file-name-masks)
                '(("." flymake-easy--flymake-init)))
           (when err-line-patterns
-            (set (make-local-variable 'flymake-err-line-patterns) err-line-patterns))
-          (dolist (var '(flymake-warning-re flymake-warn-line-regexp))
-            (set (make-local-variable var) (or warning-re "^[wW]arn")))
-          (when (boundp 'flymake-info-line-regexp)
-            (set (make-local-variable 'flymake-info-line-regexp)
-                 (or info-re "^[iI]nfo")))
-          (flymake-mode t))
+            (set (make-local-variable 'flymake-proc-err-line-patterns) err-line-patterns))
+          (set (make-local-variable flymake-proc-diagnostic-type-pred)
+               (lambda (message)
+                 (cond
+                  ((string-match-p (or warning-re "^[wW]arn") message) :warning)
+                  ((string-match-p (or info-re "^[iI]nfo") message) :info))))
+          (flymake-mode t)
+          (add-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake))
       (message "Not enabling flymake: '%s' program not found" executable))))
 
 ;; Internal overrides for flymake
