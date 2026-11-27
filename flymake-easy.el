@@ -98,7 +98,7 @@ by the flymake fork at https://github.com/illusori/emacs-flymake)."
                '(("." flymake-easy--flymake-init)))
           (when err-line-patterns
             (set (make-local-variable 'flymake-proc-err-line-patterns) err-line-patterns))
-          (set (make-local-variable flymake-proc-diagnostic-type-pred)
+          (set (make-local-variable 'flymake-proc-diagnostic-type-pred)
                (lambda (message)
                  (cond
                   ((string-match-p (or warning-re "^[wW]arn") message) :warning)
